@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1064735599648",
+    "project_id": "pocketnotes-9d794",
+    "storage_bucket": "pocketnotes-9d794.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064735599648:android:7ac49748e31aec313a2045",
+        "android_client_info": {
+          "package_name": "ph.edu.dlsu.mobdeve.s12.buhion.minor.pocketnotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064735599648-d53vgdknhvlvn8nmrse4rocr94ivuog6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTehnNtXNz5caWUnP5HKuD_8RQJaDZNCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064735599648-d53vgdknhvlvn8nmrse4rocr94ivuog6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
