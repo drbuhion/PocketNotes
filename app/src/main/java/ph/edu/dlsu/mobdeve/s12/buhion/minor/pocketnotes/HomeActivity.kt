@@ -44,13 +44,23 @@ class HomeActivity : AppCompatActivity(),NotesAdapter.MyOnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        supportActionBar?.hide()
 
         val fab_create = binding!!.fabCreateNote
+        val btn_logout = binding!!.btnLogout
 
         auth = FirebaseAuth.getInstance()
 
         fab_create.setOnClickListener{
             startActivity(Intent(this,CreateNoteActivity::class.java))
+        }
+
+        btn_logout.setOnClickListener {
+            mGoogleSignInClient.signOut().addOnCompleteListener {
+                val intent = Intent(this, LandingActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
         pb_connection = binding!!.pbConnection

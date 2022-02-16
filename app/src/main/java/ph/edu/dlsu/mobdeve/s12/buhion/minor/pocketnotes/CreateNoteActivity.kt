@@ -20,6 +20,7 @@ class CreateNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateNoteBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        supportActionBar?.hide()
 
         mAuth = FirebaseAuth.getInstance()
         onlineUserId = mAuth!!.currentUser?.uid.toString()

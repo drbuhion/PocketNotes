@@ -44,7 +44,6 @@ class LandingActivity : AppCompatActivity() {
         googleSignIn!!.setSize(SignInButton.SIZE_STANDARD)
 
 
-
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("1064735599648-d53vgdknhvlvn8nmrse4rocr94ivuog6.apps.googleusercontent.com")

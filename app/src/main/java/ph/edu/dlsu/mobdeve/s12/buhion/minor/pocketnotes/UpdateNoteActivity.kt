@@ -1,27 +1,39 @@
 package ph.edu.dlsu.mobdeve.s12.buhion.minor.pocketnotes
 
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.widget.*
 import androidx.appcompat.widget.SearchView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ph.edu.dlsu.mobdeve.s12.buhion.minor.pocketnotes.databinding.ActivityUpdateNoteBinding
+import java.io.File
+import java.io.FileOutputStream
 
 class UpdateNoteActivity : AppCompatActivity() {
 
     var binding: ActivityUpdateNoteBinding? = null
     private lateinit var btn_save : Button
     private lateinit var btn_delete : ImageButton
+    private lateinit var btn_export : ImageButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdateNoteBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        supportActionBar?.hide()
 
         btn_save = binding!!.btnSaveNote
         btn_delete = binding!!.btnDelete
+        btn_export = binding!!.btnDownload
 
         val et_title : TextView = binding!!.etNoteTitle
         val et_text : TextView = binding!!.etNoteText
@@ -69,5 +81,8 @@ class UpdateNoteActivity : AppCompatActivity() {
             }
         }
 
+        btn_export.setOnClickListener{
+            TODO()
+        }
     }
 }
