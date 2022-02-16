@@ -3,10 +3,7 @@ package ph.edu.dlsu.mobdeve.s12.buhion.minor.pocketnotes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.SearchView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -16,7 +13,7 @@ class UpdateNoteActivity : AppCompatActivity() {
 
     var binding: ActivityUpdateNoteBinding? = null
     private lateinit var btn_save : Button
-    private lateinit var btn_delete : Button
+    private lateinit var btn_delete : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
