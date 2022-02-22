@@ -67,7 +67,7 @@ class CreateNoteActivity : AppCompatActivity() {
                 val data = Note(title,note,id)
                 if (id != null) {
                     database.child(id).setValue(data).addOnSuccessListener {
-                        Toast.makeText(this, "Saved successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this,HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
                     }.addOnFailureListener{

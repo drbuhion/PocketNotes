@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,7 +31,7 @@ class UpdateNoteActivity : AppCompatActivity() {
     private lateinit var btn_save : Button
     private lateinit var btn_delete : ImageButton
     private lateinit var btn_pdf : ImageButton
-    private lateinit var btn_email : ImageButton
+    private lateinit var btn_share : ImageButton
     private lateinit var btn_hear : ImageButton
     private lateinit var btn_mic : ImageButton
 
@@ -57,7 +58,7 @@ class UpdateNoteActivity : AppCompatActivity() {
         btn_save = binding!!.btnSaveNote
         btn_delete = binding!!.btnDelete
         btn_pdf = binding!!.btnDownload
-        btn_email = binding!!.btnEmail
+        btn_share = binding!!.btnShare
         btn_mic = binding!!.btnMic
         btn_hear = binding!!.btnHear
 
@@ -113,11 +114,11 @@ class UpdateNoteActivity : AppCompatActivity() {
             )
             reference.child(id).setValue(data).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Updated successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this,HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     finish()
                 } else {
-                    Toast.makeText(this, "failed to update " + task.exception, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to update " + task.exception, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -128,7 +129,7 @@ class UpdateNoteActivity : AppCompatActivity() {
             )
             reference.child(id as String).removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Deleted successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this,HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     finish()
                 } else {
@@ -136,6 +137,13 @@ class UpdateNoteActivity : AppCompatActivity() {
                 }
             }
         }
+
+        btn_share.setOnClickListener{
+            val title = et_title.text.toString()
+            val note = et_text.text.toString()
+            shareNote(title,note)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -161,6 +169,26 @@ class UpdateNoteActivity : AppCompatActivity() {
     override fun onDestroy() {
         textToSpeechEngine.shutdown()
         super.onDestroy()
+    }
+
+    private fun shareNote(subject: String, message: String) {
+
+        val mIntent = Intent(Intent.ACTION_SEND)
+        mIntent.data = Uri.parse("mailto:")
+        mIntent.type = "text/plain"
+
+
+        mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        mIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+
+        try {
+            startActivity(Intent.createChooser(mIntent, "Choose Email Client..."))
+        }
+        catch (e: Exception){
+            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+        }
+
     }
 
 }
