@@ -85,7 +85,7 @@ class CreateNoteActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                     result?.let {
-                        val recognizedText = TextUtils.concat(binding!!.etNoteText.text, " ", it[0])
+                        val recognizedText = TextUtils.concat(binding!!.etNoteText.text, it[0])
                         binding!!.etNoteText.setText(recognizedText)
                     }
                 }

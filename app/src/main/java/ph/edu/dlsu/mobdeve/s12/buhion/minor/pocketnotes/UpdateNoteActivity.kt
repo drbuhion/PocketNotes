@@ -2,16 +2,20 @@ package ph.edu.dlsu.mobdeve.s12.buhion.minor.pocketnotes
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
+import android.icu.text.CaseMap
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
+import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.text.TextUtils
@@ -20,9 +24,14 @@ import androidx.appcompat.widget.SearchView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.itextpdf.text.Document
+import com.itextpdf.text.Font
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
 import ph.edu.dlsu.mobdeve.s12.buhion.minor.pocketnotes.databinding.ActivityUpdateNoteBinding
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 class UpdateNoteActivity : AppCompatActivity() {
@@ -144,6 +153,27 @@ class UpdateNoteActivity : AppCompatActivity() {
             shareNote(title,note)
         }
 
+        btn_pdf.setOnClickListener{
+            val values = ContentValues()
+            val filename = "PocketNotes_" + binding!!.etNoteTitle.text.toString().filterNot{it.isWhitespace()}
+            values.put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+            values.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
+            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+
+            val uri:Uri? = contentResolver.insert(MediaStore.Files.getContentUri("external"),values)
+
+            if (uri != null) {
+                val outputStream =  contentResolver.openOutputStream(uri)
+                val document = Document()
+                PdfWriter.getInstance(document, outputStream)
+                document.open()
+                document.addAuthor("PocketNotes")
+                addToPdf(document, binding!!.etNoteTitle.text.toString(), binding!!.etNoteText.text.toString())
+                Toast.makeText(this, "Saved to downloads", Toast.LENGTH_LONG)
+                document.close()
+            }
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -187,6 +217,25 @@ class UpdateNoteActivity : AppCompatActivity() {
         }
         catch (e: Exception){
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+        }
+
+    }
+
+    private fun addToPdf(document: Document, title: String, text: String) {
+        val pr = Paragraph()
+        val titleFont = Font(Font.FontFamily.HELVETICA, 24F, Font.BOLD)
+        val textFont = Font(Font.FontFamily.HELVETICA, 15F)
+        pr.add(Paragraph(title, titleFont))
+        addEmptyLines(pr,3)
+        pr.add(Paragraph(text, textFont))
+        document.add(pr)
+
+    }
+
+    private fun addEmptyLines(pr: Paragraph, lineCount: Int) {
+
+        for (i in 0 until lineCount) {
+            pr.add(Paragraph(""))
         }
 
     }
