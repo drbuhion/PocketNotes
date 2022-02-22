@@ -80,9 +80,5 @@ class UpdateNoteActivity : AppCompatActivity() {
                 }
             }
         }
-
-        btn_export.setOnClickListener{
-            TODO()
-        }
     }
 }
